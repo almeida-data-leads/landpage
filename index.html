@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almeida Data Leads</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script src="/_sdk/element_sdk.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Playfair+Display:wght@700;800&amp;display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Playfair Display', 'serif'],
+                        body: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .anim-fade {
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .anim-fade-d1 {
+            animation: fadeUp 0.7s ease 0.1s both;
+        }
+
+        .anim-fade-d2 {
+            animation: fadeUp 0.7s ease 0.2s both;
+        }
+
+        .anim-fade-d3 {
+            animation: fadeUp 0.7s ease 0.3s both;
+        }
+
+        .anim-fade-d4 {
+            animation: fadeUp 0.7s ease 0.4s both;
+        }
+
+        .anim-scale {
+            animation: scaleIn 0.6s ease 0.2s both;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .step-card {
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(4px);
+        }
+
+        .benefit-item {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+            color: #ffff !important;
+        }
+
+        .cta-btn:hover {
+            box-shadow: 0 6px 28px rgba(13, 148, 136, 0.5);
+            transform: translateY(-2px);
+            color: #ffff !important;
+        }
+
+        .hero-bg {
+            background: linear-gradient(160deg, #0c1e2c 0%, #132f44 40%, #0f3d54 70%, #0a2a3c 100%);
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .grid-pattern {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+    </style>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full font-body">
+    <div id="app-wrapper" class="w-full h-full overflow-auto" style="background-color: #f8fafb;"><!-- NAV -->
+        <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-[#ffff] border-b border-white/5">
+            <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center"
+                        style="background: linear-gradient(135deg, #0d9488, #14b8a6);"><i data-lucide="database"
+                            style="width:18px;height:18px;color:#fff;"></i>
+                    </div><span id="nav-brand" class="text-[#14b8a6] font-bold text-lg tracking-tight">Almeida Data
+                        Leads</span>
+                </div><a id="nav-cta" href="#cta-section"
+                    class="hidden sm:inline-block text-sm font-semibold text-teal-400 border border-teal-400/40 rounded-full px-5 py-2 hover:bg-teal-400/10 transition-colors cta-btn">Amostra
+                    Grátis</a>
+            </div>
+        </nav><!-- HERO -->
+        <header class="hero-bg relative w-full pt-32 pb-24 px-6 overflow-hidden">
+            <div class="grid-pattern absolute inset-0"></div>
+            <div class="relative max-w-4xl mx-auto text-center">
+                <div
+                    class="anim-fade inline-flex items-center gap-2 bg-teal-500/10 border border-teal-400/20 rounded-full px-4 py-1.5 mb-8">
+                    <span class="w-2 h-2 bg-teal-400 rounded-full animate-pulse"></span> <span
+                        class="text-teal-300 text-sm font-semibold">Prospecção B2B inteligente</span>
+                </div>
+                <h1 id="hero-title"
+                    class="anim-fade-d1 font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6"
+                    style="color: #ffffff;">Empresas novas prontas para virar seus próximos clientes</h1>
+                <p id="hero-subtitle" class="anim-fade-d2 text-lg sm:text-xl max-w-2xl mx-auto mb-10"
+                    style="color: #94a3b8;">Receba listas atualizadas de empresas recém-abertas na sua região e aumente
+                    sua carteira de clientes com mais previsibilidade.</p><a id="hero-btn" href="#cta-section"
+                    class="anim-fade-d3 cta-btn inline-flex items-center gap-2 text-white font-bold text-lg px-8 py-4 rounded-full">
+                    <span></span> Quero receber leads de teste </a>
+                <div class="anim-fade-d4 mt-14 flex flex-wrap justify-center gap-8 text-sm" style="color: #64748b;">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" style="width:16px;height:16px;color:#14b8a6;"></i> Sem compromisso
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" style="width:16px;height:16px;color:#14b8a6;"></i> Amostra
+                        gratuita
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" style="width:16px;height:16px;color:#14b8a6;"></i> Dados
+                        atualizados
+                    </div>
+                </div>
+            </div>
+        </header><!-- PROBLEMA -->
+        <section class="w-full py-20 px-6" style="background-color: #ffffff;">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-start gap-5 bg-red-50 border border-red-100 rounded-2xl p-8 sm:p-10">
+                    <div class="flex-shrink-0 w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mt-1"><i
+                            data-lucide="alert-triangle" style="width:24px;height:24px;color:#ef4444;"></i>
+                    </div>
+                    <div>
+                        <h2 id="problem-title" class="font-heading text-2xl sm:text-3xl font-bold mb-4"
+                            style="color: #0c1e2c;">Dificuldade para conseguir novos clientes?</h2>
+                        <p id="problem-text" class="text-base sm:text-lg leading-relaxed" style="color: #475569;">A
+                            maioria das empresas perde tempo com prospecção fria, listas desatualizadas e contatos que
+                            não respondem. Enquanto isso, novas empresas estão abrindo todos os dias, e procurando
+                            serviços como o seu.</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- SOLUÇÃO -->
+        <section class="w-full py-20 px-6" style="background-color: #f0fdfa;">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6"
+                    style="background: linear-gradient(135deg, #0d9488, #14b8a6);"><i data-lucide="rocket"
+                        style="width:28px;height:28px;color:#fff;"></i>
+                </div>
+                <h2 id="solution-title" class="font-heading text-3xl sm:text-4xl font-bold mb-5"
+                    style="color: #0c1e2c;">Nós encontramos essas empresas para você</h2>
+                <p id="solution-text" class="text-lg max-w-2xl mx-auto" style="color: #475569;">A Almeida Data Leads
+                    identifica empresas recém-abertas com alto potencial de contratação e organiza tudo para você
+                    prospectar com mais eficiência.</p>
+            </div>
+        </section><!-- O QUE VOCÊ RECEBE -->
+        <section class="w-full py-20 px-6" style="background-color: #ffffff;">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-center mb-12" style="color: #0c1e2c;">O que
+                    você recebe</h2>
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <div
+                        class="benefit-item flex items-start gap-4 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center"
+                            style="background-color: #ccfbf1;"><i data-lucide="building-2"
+                                style="width:20px;height:20px;color:#0d9488;"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold mb-1" style="color: #0c1e2c;">Empresas recém-abertas na sua região
+                            </p>
+                            <p class="text-sm" style="color: #64748b;">Dados frescos de novas empresas</p>
+                        </div>
+                    </div>
+                    <div
+                        class="benefit-item flex items-start gap-4 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center"
+                            style="background-color: #ccfbf1;"><i data-lucide="table"
+                                style="width:20px;height:20px;color:#0d9488;"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold mb-1" style="color: #0c1e2c;">Dados organizados para prospecção</p>
+                            <p class="text-sm" style="color: #64748b;">Tudo pronto para você usar</p>
+                        </div>
+                    </div>
+                    <div
+                        class="benefit-item flex items-start gap-4 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center"
+                            style="background-color: #ccfbf1;"><i data-lucide="phone"
+                                style="width:20px;height:20px;color:#0d9488;"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold mb-1" style="color: #0c1e2c;">Contatos disponíveis</p>
+                            <p class="text-sm" style="color: #64748b;">Quando disponíveis nos registros</p>
+                        </div>
+                    </div>
+                    <div
+                        class="benefit-item flex items-start gap-4 bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center"
+                            style="background-color: #ccfbf1;"><i data-lucide="map-pin"
+                                style="width:20px;height:20px;color:#0d9488;"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold mb-1" style="color: #0c1e2c;">Segmentação por cidade e perfil</p>
+                            <p class="text-sm" style="color: #64748b;">Foco onde faz sentido pra você</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- COMO FUNCIONA -->
+        <section class="w-full py-20 px-6" style="background-color: #f8fafb;">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-center mb-14" style="color: #0c1e2c;">Como
+                    funciona</h2>
+                <div class="grid sm:grid-cols-4 gap-6">
+                    <div class="step-card text-center bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold text-white"
+                            style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            1
+                        </div>
+                        <p class="font-semibold text-sm" style="color: #0c1e2c;">Solicite uma amostra grátis</p>
+                    </div>
+                    <div class="step-card text-center bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold text-white"
+                            style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            2
+                        </div>
+                        <p class="font-semibold text-sm" style="color: #0c1e2c;">Receba uma lista com empresas novas</p>
+                    </div>
+                    <div class="step-card text-center bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold text-white"
+                            style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            3
+                        </div>
+                        <p class="font-semibold text-sm" style="color: #0c1e2c;">Teste a prospecção</p>
+                    </div>
+                    <div class="step-card text-center bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold text-white"
+                            style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                            4
+                        </div>
+                        <p class="font-semibold text-sm" style="color: #0c1e2c;">Receba listas completas</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- PROVA / VALOR -->
+        <section class="w-full py-20 px-6" style="background-color: #ffffff;">
+            <div class="max-w-3xl mx-auto text-center">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 bg-amber-50"><i
+                        data-lucide="trending-up" style="width:28px;height:28px;color:#f59e0b;"></i>
+                </div>
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold mb-5" style="color: #0c1e2c;">Leads com potencial
+                    real de fechamento</h2>
+                <p class="text-lg" style="color: #475569;">Empresas recém-abertas precisam de serviços para se
+                    estabelecerem, e muitas vezes estão mais abertas a propostas comerciais. Com nossos
+                    serviços. Você entra em contato no momento certo.</p>
+            </div>
+        </section><!-- CTA FINAL -->
+        <section id="cta-section" class="w-full py-24 px-6 relative overflow-hidden"
+            style="background: linear-gradient(160deg, #0c1e2c 0%, #132f44 100%);">
+            <div class="absolute inset-0 grid-pattern"></div>
+            <div class="relative max-w-3xl mx-auto text-center">
+                <h2 id="cta-title" class="font-heading text-3xl sm:text-4xl font-bold mb-5" style="color: #ffffff;">
+                    Comece agora com uma amostra gratuita</h2>
+                <p class="text-lg mb-10" style="color: #94a3b8;">Teste sem compromisso e veja na prática o potencial dos
+                    leads.</p><a id="cta-btn" href="https://wa.me/5511999999999" target="_blank"
+                    rel="noopener noreferrer"
+                    class="cta-btn inline-flex items-center gap-3 text-white font-bold text-lg px-10 py-5 rounded-full">
+                    <span></span> <span id="cta-btn-text">Falar no WhatsApp</span> </a>
+            </div>
+        </section><!-- FOOTER -->
+        <footer class="w-full py-10 px-6" style="background-color: #0a1929;">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="flex items-center justify-center gap-2 mb-3">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+                        style="background: linear-gradient(135deg, #0d9488, #14b8a6);"><i data-lucide="database"
+                            style="width:16px;height:16px;color:#fff;"></i>
+                    </div><span class="text-white font-bold">Almeida Data Leads</span>
+                </div>
+                <p class="text-sm mb-1" style="color: #64748b;">Inteligência em prospecção B2B</p>
+                <p id="footer-whatsapp" class="text-sm" style="color: #64748b;">WhatsApp: <a
+                        href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer"
+                        class="text-teal-400 hover:underline">(11) 99999-9999</a></p>
+            </div>
+        </footer>
+    </div>
+    <script>
+        lucide.createIcons();
+
+        const defaultConfig = {
+            hero_title: 'Empresas novas prontas para virar seus próximos clientes',
+            hero_subtitle: 'Receba listas atualizadas de empresas recém-abertas na sua região e aumente sua carteira de clientes com mais previsibilidade.',
+            hero_button: 'Quero receber leads de teste',
+            problem_title: 'Dificuldade para conseguir novos clientes?',
+            solution_title: 'Nós encontramos essas empresas para você',
+            cta_title: 'Comece agora com uma amostra gratuita',
+            cta_button: 'Falar no WhatsApp',
+            whatsapp_number: '5511999999999',
+            background_color: '#f8fafb',
+            surface_color: '#ffffff',
+            text_color: '#0c1e2c',
+            primary_action_color: '#0d9488',
+            secondary_action_color: '#14b8a6',
+            font_family: 'Playfair Display',
+            font_size: 16
+        };
+
+        function applyConfig(config) {
+            const el = (id) => document.getElementById(id);
+            const c = (key) => config[key] || defaultConfig[key];
+
+            el('hero-title').textContent = c('hero_title');
+            el('hero-subtitle').textContent = c('hero_subtitle');
+            el('hero-btn').innerHTML = '<span></span> ' + c('hero_button');
+            el('problem-title').textContent = c('problem_title');
+            el('solution-title').textContent = c('solution_title');
+            el('cta-title').textContent = c('cta_title');
+            el('cta-btn-text').textContent = c('cta_button');
+
+            const waNum = c('whatsapp_number');
+            el('cta-btn').href = 'https://wa.me/' + waNum;
+            el('footer-whatsapp').innerHTML = 'WhatsApp: <a href="https://wa.me/' + waNum + '" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:underline">' + waNum + '</a>';
+
+            // Colors
+            const bg = c('background_color');
+            const surface = c('surface_color');
+            const text = c('text_color');
+            const primary = c('primary_action_color');
+            const secondary = c('secondary_action_color');
+
+            document.getElementById('app-wrapper').style.backgroundColor = bg;
+            document.querySelectorAll('[style*="background-color: #ffffff"]').forEach(el => el.style.backgroundColor = surface);
+            document.querySelectorAll('.font-heading').forEach(el => el.style.color = text);
+            el('hero-title').style.color = '#ffffff';
+            el('cta-title').style.color = '#ffffff';
+
+            // Font
+            const font = c('font_family');
+            const baseStack = 'DM Sans, sans-serif';
+            const headingStack = font + ', serif';
+            document.querySelectorAll('.font-heading').forEach(el => el.style.fontFamily = headingStack);
+            document.body.style.fontFamily = baseStack;
+
+            // Font size
+            const sz = c('font_size');
+            document.body.style.fontSize = sz + 'px';
+            el('hero-title').style.fontSize = (sz * 3) + 'px';
+            el('hero-subtitle').style.fontSize = (sz * 1.2) + 'px';
+        }
+
+        window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: async (config) => applyConfig(config),
+            mapToCapabilities: (config) => ({
+                recolorables: [
+                    { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+                    { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+                    { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+                    { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+                    { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+                }
+            }),
+            mapToEditPanelValues: (config) => new Map([
+                ['hero_title', config.hero_title || defaultConfig.hero_title],
+                ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+                ['hero_button', config.hero_button || defaultConfig.hero_button],
+                ['problem_title', config.problem_title || defaultConfig.problem_title],
+                ['solution_title', config.solution_title || defaultConfig.solution_title],
+                ['cta_title', config.cta_title || defaultConfig.cta_title],
+                ['cta_button', config.cta_button || defaultConfig.cta_button],
+                ['whatsapp_number', config.whatsapp_number || defaultConfig.whatsapp_number]
+            ])
+        });
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9f168602901752d2',t:'MTc3NzA0ODU1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
