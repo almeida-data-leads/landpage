@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mapa de Leads</title>
+
+    <!-- Leaflet -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1500px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .header p {
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .card-title {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 25px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        /* =========================
+           MAPA
+        ========================= */
+
+        .map-container {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+
+            margin-bottom: 15px;
+        }
+
+        #map {
+            width: 100%;
+            height: 550px;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           TABELA
+        ========================= */
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-header h2 {
+            font-size: 18px;
+        }
+
+        .search {
+            width: 300px;
+            padding: 10px 12px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #2563eb;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f9fafb;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px 15px;
+
+            font-size: 12px;
+            text-transform: uppercase;
+
+            color: #6b7280;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 15px;
+
+            font-size: 14px;
+
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .tipo {
+            font-weight: bold;
+        }
+
+        .quantidade {
+            font-weight: bold;
+        }
+
+        .descricao {
+            color: #6b7280;
+            max-width: 400px;
+        }
+
+        /* =========================
+           MARCADOR
+        ========================= */
+
+        .custom-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #2563eb;
+            color: white;
+
+            border-radius: 50%;
+
+            font-weight: bold;
+
+            border: 3px solid white;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,.35);
+        }
+
+        /* =========================
+           POPUP
+        ========================= */
+
+        .popup {
+            min-width: 220px;
+        }
+
+        .popup h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .popup-item {
+            margin-bottom: 6px;
+        }
+
+        .popup-label {
+            font-weight: bold;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            #map {
+                height: 450px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div>
+            <h1>Mapa de Leads</h1>
+
+            <p>
+                Visualização geográfica dos dados
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-title">
+                Registros
+            </div>
+
+            <div
+                class="card-value"
+                id="totalRegistros"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Quantidade total
+            </div>
+
+            <div
+                class="card-value"
+                id="totalQuantidade"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                Tipos
+            </div>
+
+            <div
+                class="card-value"
+                id="totalTipos"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAPA -->
+
+    <div class="map-container">
+
+        <div id="map"></div>
+
+    </div>
+
+
+    <!-- TABELA -->
+
+    <div class="table-container">
+
+        <div class="table-header">
+
+            <h2>
+                Dados
+            </h2>
+
+            <input
+                type="text"
+                id="search"
+                class="search"
+                placeholder="Pesquisar..."
+            >
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Tipo</th>
+
+                        <th>Latitude</th>
+
+                        <th>Longitude</th>
+
+                        <th>Quantidade</th>
+
+                        <th>Descrição</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabela">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Leaflet -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+
+    /*
+    ============================================================
+    DADOS
+    ============================================================
+
+    É AQUI QUE VOCÊ VAI COLOCAR SEUS DADOS.
+
+    Estrutura:
+
+    {
+        TIPO: "NOME",
+        LAT: latitude,
+        LONG: longitude,
+        QUANTIDADE: quantidade,
+        DESCRICAO: "descrição"
+    }
+
+    ============================================================
+    */
+
+    const dados = [
+
+        {
+            TIPO: "Loja de Material de Construção",
+            LAT: -21.7642,
+            LONG: -43.3503,
+            QUANTIDADE: 35,
+            DESCRICAO: "Lojas de materiais de construção encontradas na região."
+        },
+
+        {
+            TIPO: "Loja de Pisos",
+            LAT: -21.7500,
+            LONG: -43.3650,
+            QUANTIDADE: 18,
+            DESCRICAO: "Empresas especializadas em pisos e revestimentos."
+        },
+
+        {
+            TIPO: "Loja de Acabamentos",
+            LAT: -21.7800,
+            LONG: -43.3300,
+            QUANTIDADE: 42,
+            DESCRICAO: "Estabelecimentos relacionados a acabamentos."
+        },
+
+        {
+            TIPO: "Construtora",
+            LAT: -21.7400,
+            LONG: -43.3700,
+            QUANTIDADE: 12,
+            DESCRICAO: "Construtoras identificadas na região."
+        }
+
+    ];
+
+
+    /*
+    ============================================================
+    MAPA
+    ============================================================
+    */
+
+    const map = L.map("map");
+
+
+    /*
+    OpenStreetMap
+    */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution:
+                '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+
+    /*
+    ============================================================
+    FUNÇÃO PARA CRIAR MARCADOR
+    ============================================================
+    */
+
+    function criarMarcador(item) {
+
+        /*
+        Tamanho proporcional à quantidade
+        */
+
+        let tamanho = 30 + Math.sqrt(item.QUANTIDADE) * 3;
+
+        /*
+        Limita o tamanho
+        */
+
+        tamanho = Math.min(tamanho, 70);
+
+
+        /*
+        Cria o ícone
+        */
+
+        const icon = L.divIcon({
+
+            className: "",
+
+            html: `
+                <div
+                    class="custom-marker"
+                    style="
+                        width:${tamanho}px;
+                        height:${tamanho}px;
+                        font-size:${Math.max(11, tamanho / 4)}px;
+                    "
+                >
+                    ${item.QUANTIDADE}
+                </div>
+            `,
+
+            iconSize: [
+                tamanho,
+                tamanho
+            ],
+
+            iconAnchor: [
+                tamanho / 2,
+                tamanho / 2
+            ]
+
+        });
+
+
+        /*
+        Cria marcador
+        */
+
+        const marker = L.marker(
+            [
+                item.LAT,
+                item.LONG
+            ],
+            {
+                icon: icon
+            }
+        ).addTo(map);
+
+
+        /*
+        Popup
+        */
+
+        marker.bindPopup(`
+
+            <div class="popup">
+
+                <h3>
+                    ${escapeHTML(item.TIPO)}
+                </h3>
+
+                <div class="popup-item">
+
+                    <span class="popup-label">
+                        Quantidade:
+                    </span>
+
+                    ${item.QUANTIDADE}
+
+                </div>
+
+                <div class="popup-item">
+
+                    <span class="popup-label">
+                        Latitude:
+                    </span>
+
+                    ${item.LAT}
+
+                </div>
+
+                <div class="popup-item">
+
+                    <span class="popup-label">
+                        Longitude:
+                    </span>
+
+                    ${item.LONG}
+
+                </div>
+
+                <div class="popup-item">
+
+                    <span class="popup-label">
+                        Descrição:
+                    </span>
+
+                    ${escapeHTML(item.DESCRICAO)}
+
+                </div>
+
+            </div>
+
+        `);
+
+
+        return marker;
+
+    }
+
+
+    /*
+    ============================================================
+    CRIA TODOS OS MARCADORES
+    ============================================================
+    */
+
+    const markers = [];
+
+
+    dados.forEach(item => {
+
+        const marker = criarMarcador(item);
+
+        markers.push(marker);
+
+    });
+
+
+    /*
+    ============================================================
+    ZOOM AUTOMÁTICO
+    ============================================================
+    */
+
+    if (markers.length > 0) {
+
+        const grupo = L.featureGroup(markers);
+
+        map.fitBounds(
+            grupo.getBounds(),
+            {
+                padding: [40, 40]
+            }
+        );
+
+    } else {
+
+        /*
+        Caso não existam dados
+        */
+
+        map.setView(
+            [-15.7801, -47.9292],
+            4
+        );
+
+    }
+
+
+    /*
+    ============================================================
+    TABELA
+    ============================================================
+    */
+
+    const tabela =
+        document.getElementById("tabela");
+
+
+    function preencherTabela(lista) {
+
+        tabela.innerHTML = "";
+
+
+        lista.forEach((item, index) => {
+
+            const tr =
+                document.createElement("tr");
+
+
+            tr.innerHTML = `
+
+                <td class="tipo">
+                    ${escapeHTML(item.TIPO)}
+                </td>
+
+                <td>
+                    ${item.LAT}
+                </td>
+
+                <td>
+                    ${item.LONG}
+                </td>
+
+                <td class="quantidade">
+                    ${item.QUANTIDADE}
+                </td>
+
+                <td class="descricao">
+                    ${escapeHTML(item.DESCRICAO)}
+                </td>
+
+            `;
+
+
+            /*
+            Ao clicar na linha,
+            abre o marcador correspondente.
+            */
+
+            tr.addEventListener(
+                "click",
+                () => {
+
+                    const marker =
+                        markers[
+                            dados.indexOf(item)
+                        ];
+
+                    map.setView(
+                        [
+                            item.LAT,
+                            item.LONG
+                        ],
+                        14
+                    );
+
+                    marker.openPopup();
+
+                }
+            );
+
+
+            tabela.appendChild(tr);
+
+        });
+
+    }
+
+
+    preencherTabela(dados);
+
+
+    /*
+    ============================================================
+    PESQUISA
+    ============================================================
+    */
+
+    document
+        .getElementById("search")
+        .addEventListener(
+            "input",
+            function () {
+
+                const termo =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const filtrados =
+                    dados.filter(item => {
+
+                        return (
+
+                            String(item.TIPO)
+                                .toLowerCase()
+                                .includes(termo)
+
+                            ||
+
+                            String(item.DESCRICAO)
+                                .toLowerCase()
+                                .includes(termo)
+
+                            ||
+
+                            String(item.QUANTIDADE)
+                                .includes(termo)
+
+                        );
+
+                    });
+
+
+                preencherTabela(filtrados);
+
+            }
+        );
+
+
+    /*
+    ============================================================
+    CARDS
+    ============================================================
+    */
+
+    document
+        .getElementById("totalRegistros")
+        .textContent =
+            dados.length;
+
+
+    document
+        .getElementById("totalQuantidade")
+        .textContent =
+            dados.reduce(
+                (total, item) =>
+                    total + Number(item.QUANTIDADE || 0),
+                0
+            );
+
+
+    const tipos =
+        new Set(
+            dados.map(item => item.TIPO)
+        );
+
+
+    document
+        .getElementById("totalTipos")
+        .textContent =
+            tipos.size;
+
+
+    /*
+    ============================================================
+    SEGURANÇA
+    ============================================================
+    */
+
+    function escapeHTML(value) {
+
+        if (value === null ||
+            value === undefined) {
+
+            return "";
+
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
+
+</body>
+
+</html>
